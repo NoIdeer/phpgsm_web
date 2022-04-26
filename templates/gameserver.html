@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	<title><!--#title#--></title>
+	<meta content="Steam Game Controler" name="description">
+	<meta content="" name="keywords">
+	<!-- Favicons -->
+	<link href="img/favicon.png" rel="icon">
+	<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	<!-- Google Fonts -->
+	<link href="https://fonts.gstatic.com" rel="preconnect">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--#include#-->
+</head>
+
+<body>
+	<!--#header#-->
+	<!--#sidebar#-->
+	<main id="main" class="main">
+		<div class="pagetitle">
+			<div style="float:right;width:5%;margin-top:-1%;"><img class="dark-img" style="float:right;width:100%;" src="<!--#logo#-->" /></div>
+			<div style="float:right;padding-right:2%;padding-top:1%;"><!--#moddesc#--></div>
+			<h1>Game Server Information</h1>
+			<nav>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+					<li class="breadcrumb-item" id="toggle">Game Servers</li>
+					<li class="breadcrumb-item active"><!--#bserver#--></li>
+				</ol>
+			</nav>
+		</div>
+		<section class="section">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Status <span id="status" class="card-title" style="font-size:18px;font-weight: 500;"><!--#l_status#--></span></h5>
+						<table style="width:100%;" class="table">
+							<tr><td>Started</td><td id="start"></td></tr>
+							<tr><td>Steam ID</td><td id="steamid"></td></tr>
+							<tr><td>Host Name</td><td id="hostname"></td></tr>
+							<tr><td>Players Online</td><td id="players"></td></tr>
+							<tr><td>Bots Online</td><td id="bots"></td></tr>
+							<tr><td>Max Players</td><td id="maxplayers"></td></tr>
+							<tr><td>Client Software ID</td><td id="gameid"></td></tr>
+							<tr><td>Server Software ID</td><td id="server_id"></td></tr>
+							<tr><td>Server Version</td><td id="build"></td></tr>
+							<tr><td>CPU use</td><td id="cpu"></td></tr>
+							<tr><td>Memory use</td><td id="mem"></td></tr>
+							<tr><td>Game Tags</td><td id="gametags"><!--#gametags#--></td></tr>
+						</table>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title" id="showlog" style="cursor:pointer;">Send Command</h5>
+						<div id ="log"  class="gameserver_log gameserver-cmd"></div>
+						<div style="width:100%;">
+							<form id="sendcmd"  style ="width:100%;float:left;padding-top:2%;" action="<!--#url#-->/ajaxv2.php" method="get">
+								<div class="input-group">
+									<input type="text" class="form-control" placeholder="Enter Server Command" name="text" id="text">
+									<input type="hidden" id="action" name="action" value="exetmux">
+									<input type="hidden" id="server" name="server" value="<!--#host_name#-->">
+									<input type="hidden" id="cmd" name="cmd" value="c">
+									<input type="hidden" id="key" name="key" value="{$key}">
+									<input  type="submit" id="send"  class="hidden" value="do this">
+									<label for="send" class="btn btn-info">Send <i class="bx bxs-send"></i></label>
+								</div>
+							</form>
+							<div class ="ajax_response" id="ajax-response"></div>
+						</div>
+					</div>   
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Start Up</h5>
+						<table class="table">
+							<tr><td style="width:50%;">Managed By</td><td style="text-transform: uppercase;"><!--#managed_by#--></td></tr>
+							<tr><td>Internal ID</td><td><!--#host_name#--></td></tr>
+							<tr><td>Host Name</td><td id="broadcast_name"><!--#server_name#--></td></tr>
+							<tr><td>Secure</td><td id="secure"></td></tr>
+							<tr><td>Start Up Map</td><td id="default_map"><!--#default_map#--></td></tr>
+							<tr><td>Game Port</td><td id="port"><!--#port#--></td></tr>
+							<tr><td>Client Port</td><td id="client_port"><!--#client_port#--></td></tr>
+							<tr><td>SourceTv Port</td><td id="source_port"><!--#source_port#--></td></tr>
+							<tr><td>Game Tags</td><td id = "start_tags"><!--#gametags#--></td></tr>
+							<tr><td>Last Update</td><td id="update"></td></tr>
+							<tr><td>API location</td><td><!--#url#--></td></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Players
+							<span style="float:right;clear:none;" id="player_title" ></span>
+							<span style="float:right;padding-right:1%;">Map</span>
+						</h5>
+						<div class="table-wrapper" style ="height:391px;"> 
+							<table style="width:100%;" class="table table-sm">
+								<thead>
+								<tr>
+									<th style="width:35%;">Name</th><th>Location</th><th style="padding-left:2%;">Score</th><th style="text-align:center;">Time Online</th>
+								</tr>
+								</thead>
+								<tbody id="pbody"></tbody>
+							</table>
+						</div>
+					</div>
+				</div> 
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Controls</h5>
+						<table>
+							<tr style="border-bottom: 12px solid transparent;">
+								<td class="hidden pad_right"   id="stop_server"><button id="stop_serverd" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#quit_game"><i class="bi bi-exclamation-octagon"></i> Stop</button></td>
+								<td class="hidden pad_right"   id="start_server"><button class="btn btn-success"  onclick="start_server()"><i class="far fa-play-circle"></i> Start</button></td>
+								<td class="hidden pad_right"   id="restart_server"><button class="btn btn-warning" onclick="restart_server()"><i class="ri-restart-line"></i> Restart</button></td>
+								<td class="hidden pad_right"   id="join_server"><button type="button" class="btn btn-primary"><i class="fa fa-gamepad"></i> <a style="color:#fff;" href="<!--#join_link#-->">Join</a></button></td>
+								<td class="hidden pad_right"   id="cvar"><button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalDialogScrollable"><i class="ri-booklet-line"></i> C Vars</button></td>
+								<td id="settings"><button class="btn btn-primary" onclick"$('body').toggleClass('light dark')"><i class="ri-edit-2-line"></i> Settings</button></td>
+							</tr>
+						</table>
+					</div>
+          </div> 
+	<div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Disk Usage</h5>
+                <table class="table">
+					<tr><td style="width:45%;">Instance Folder</td><td id="location"><!--#location#--></td></tr>
+					<tr><td>Instance Size</td><td id="disk_space"><!--#disk_space#--></td></tr>
+					<tr><td>Install Folder</td><td id="install_dir"><!--#install_dir#--></td></tr>
+					<tr><td>Install Size</td><td id="install_size"><!--#install_size#--></td></tr>
+                 </table>
+            </div>
+          </div>
+          </div>
+        </div>
+      
+              <div class="modal fade" id="modalDialogScrollable" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Current Cvars</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="rule">
+                      Non omnis incidunt qui sed occaecati magni asperiores est mollitia. Soluta at et reprehenderit. Placeat autem numquam et fuga numquam. Tempora in facere consequatur sit dolor ipsum. Consequa>
+                      <br><br><br><br><br><br><br><br><br>jim<br>bow<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                      This content should appear at the bottom after you scroll.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+               <div class="modal fade" id="quit_game" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Stop <!--#bserver#--></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Stop Server, are you sure ?<br>This will stop the sever directly with no warning to online players
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="quit">Do It</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="ban_user" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Ban User</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+						<form>
+                <div class="row mb-3">
+                  <label for="inputEmail3" class="col-sm-3 col-form-label"l>Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="name" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputEmail3" class="col-sm-3 col-form-label">IP Address</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="ip" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputPassword3" class="col-sm-3 col-form-label">Steam ID</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="steam_id" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-form-label col-sm-3">Ban Period</label>
+                 <div class="col-sm-8">
+                    <select id="inputState" class="form-select">
+                    <option selected="">Choose...</option>
+                    <!--#sbox#-->
+                  </select>
+                  </div>
+                </div>
+                
+               
+              </form>
+			
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="ban">Do It</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+			<div class="modal fade" id="edit" tabindex="-1">
+                <div class="modal-dialog modal-fullscreen">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Edit <!--#bserver#--></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                     <table class="table">
+						 <tbody id="items"></tbody>
+                     </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+     
+    </section>
+
+  </main><!-- End #main -->
+
+ <!--#footer#-->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/chart.js/chart.min.js"></script>
+  <script src="assets/vendor/echarts/echarts.min.js"></script>
+  <script src="assets/vendor/quill/quill.min.js"></script>
+  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+   
+  <!-- Template Main JS File -->
+  <script src = "js/jquery.js"></script>
+  <script src="assets/js/main.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/gameserver.js"></script>
+  <script src="js/date_format.js"></script>
+  
+<script>
+	var a_href=0;
+		var url='';
+		var id='';
+		var path='';
+		var type='Source';
+		var host= '';
+	jQuery(document).ready(function(){
+		$('#gameservers-nav').toggleClass("show");
+	  	url = "<!--#url#-->";
+		id = "<!--#host_name#-->";
+		game = "<!--#bserver#-->"
+		server ="<!--#fname#-->";
+		port = 0;
+		fetchlog(port,id,url);
+		setInterval(fetchlog, 2000);
+		players(port,id,url);
+		setInterval(players, 7000);
+		get_game(url,server,id);
+		setInterval(get_game,4000);
+    //console.log(url);
+    //base_servers(url)
+
+ 	$('#sendcmd').on('submit', function(e) {
+        e.preventDefault();
+        //alert('send command');
+       console.log( $(this).attr('action'));
+        
+        $.ajax({
+            type: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            success: function(data) {
+            
+                $('#ajax-response').html(data);
+                $("#ajax-response").show();
+                $('#text').val(""); 
+                $("#send").blur(); 
+                $('#ajax-response').delay(3000).fadeOut('slow');
+            }
+        });
+
+    });
+    $('#quit').click(function() {
+		// pressed quit
+		cmd = url+'/ajaxv2.php?action=version';
+		//alert ('hit quit '+url);
+		 $('#quit_game').modal('hide');
+		 stop_server(); 
+
+	});
+	$('#showlog').click(function() {
+		$('#log').toggle();
+		$('#log').scrollTop($('#log')[0].scrollHeight);
+	});
+	
+	$('#toggle').click(function() {
+		$('#gameservers').toggleClass('collapsed');
+		$('#gameservers-nav').toggleClass('show');
+	});
+	
+});
+
+</script>
+</body>
+
+</html>

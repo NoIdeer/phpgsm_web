@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title><!--#page-title#--></title>
+		<meta content="" name="description">
+		<meta content="" name="keywords">
+		<!-- Favicons -->
+		<link href="img/favicon.png" rel="icon">
+		<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+		<!-- Google Fonts -->
+		<link href="https://fonts.gstatic.com" rel="preconnect">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+		<!--#include#-->
+	</head>
+	<body>
+		<!--#header#-->
+		<!--#sidebar#-->
+		<main id="main" class="main">
+			<div class="pagetitle">
+				<h1><!--#page-title#--></h1>
+				<nav>
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="index.php">Home</a></li>
+						<li class="breadcrumb-item active"><!--#page-title#--></li>
+					</ol>
+				</nav>
+			</div><!-- End Page Title -->
+			<section class="section">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<ul class="nav nav-tabs nav-tabs-bordered" id="borderedTab" role="tablist" style="margin-top:2%;">
+									<li class="nav-item" role="presentation">
+										<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bordered-home" type="button" role="tab" aria-controls="home" aria-selected="true">Installed Servers</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#bordered-profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Site</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#bordered-contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Templates</button>
+									</li>
+									<li class="nav-item" role="presentation">
+										<button class="nav-link" id="supported-games" data-bs-toggle="tab" data-bs-target="#bordered-games" type="button" role="tab" aria-controls="contact" aria-selected="false">Supported Servers</button>
+									</li>
+								</ul>
+								<div class="tab-content pt-2" id="borderedTabContent">
+									<div class="tab-pane fade show active" id="bordered-home" role="tabpanel" aria-labelledby="home-tab">
+										<section class="section">
+											<div class="row">
+												<div class="col-lg-6">
+													<h5 class="card-title">PHPgsm Servers</h5>
+													<p>PHPgsm Servers are set to auto update, no action is required.</p>
+												</div>
+												<div class="col-lg-6">
+													<h5 class="card-title">Other Servers</h5>
+													<p>The servers listed below are not managed by PHPgsm, you will have to update them manually
+														<div style="font-size:12px;width:100%;text-align:center;">
+															Limited support is offered for LGSM servers
+														</div>
+													</p>
+												</div>
+											</div>
+									</div>
+									<div class="tab-pane fade" id="bordered-profile" role="tabpanel" aria-labelledby="profile-tab">
+										<div class="panel">
+											<div style="width:85%;margin:auto;">
+												<table class="table">
+													<thead>
+														<tr><th>Module</th><th>Version</th><th>Status</th><th>Release Date</th><th>Update Available</th></tr>
+													</thead>
+													<tbody>
+														<!--#sw_table#-->
+													</tbody>
+												</table>
+												<!--<p><!--#debug#-></p>-->
+											</div>
+										</div>
+									</div>
+									<div class="tab-pane fade" id="bordered-contact" role="tabpanel" aria-labelledby="contact-tab">
+										<div class="panel">
+											Templates
+										</div>
+									</div>
+									<div class="tab-pane fade" id="bordered-games" role="tabpanel" aria-labelledby="contact-tab">
+										<div class="panel">
+											Supported
+										</div>
+									</div>
+								</div><!-- End Bordered Tabs -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+		<!--#footer#-->
+		<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+		<!-- Vendor JS Files -->
+		<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+		<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="assets/vendor/chart.js/chart.min.js"></script>
+		<script src="assets/vendor/echarts/echarts.min.js"></script>
+		<script src="assets/vendor/quill/quill.min.js"></script>
+		<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+		<!-- Template Main JS File -->
+		<script src= "js/jquery.js"></script>
+		<script src="assets/js/main.js"></script>
+		<script>
+			$( document ).ready(function() {
+				console.log( "ready!" );
+				 $('#updates').toggleClass("collapsed");
+			});
+		</script>
+	</body>
+
+</html>

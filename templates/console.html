@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Console</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!--#include#-->
+
+</head>
+
+<body>
+
+  <!--#header#-->
+<!-- End Header -->
+
+  <!-- ======= Sidebar ======= -->
+  <!--#sidebar#-->
+  <!-- ======= End Sidebar-->
+
+  <main id="main">
+
+    <div class="pagetitle">
+      <h1>Console</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+          <li class="breadcrumb-item active">Console</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+<section class="section">
+	 <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title" style="font-size:14px;display:none;" id="server-select"><span style="padding-right:1%;">Choose Server</span><select id="servers"><!--#sbox#--></select></h5>
+              <div id="log"  class="gameserver_log" style="font-size:14px;width:60%;margin-top:3.3%;"></div>
+				<div id="player" style="clear:none;width:37%;float:right;margin-right:1%;">
+					<div class="card-title" style="text-align:center;font-size:14px;" id="player_title">Choose Game</div>
+						<div class="table-wrapper">	
+							<table class="table table-sml" id="players_table">
+								<thead>
+									<tr style="padding-bottom:6px;">
+										<th>Name</th>
+										<th>Location</th>
+										<th>Score</th>
+										<th>Time</th>
+									</tr>
+								</thead>	
+								<tbody id="pbody"></tbody>
+							</table>
+						</div>
+					<div id="player_rows"></div>
+				</div>
+			<div style="clear:both;padding:2%;">
+		<div>	   
+		<form id="sendcmd" style="width:60%;float:left;" action="/ajaxv2.php" method="get">
+			<div class="input-group">
+				<input class="form-control"name="text" type="text" id="text" size="50" placeholder="Enter Server Command">
+				<input type="hidden" id="action" name="action" value="exetmux">
+				<input type="hidden" id="server" name="server" value="">
+				<input type="hidden" id="cmd" name="cmd" value="c">
+				<input type="hidden" id="key" name="key" value="">
+				<label for="send" class="btn btn-info">Send <i class="bx bxs-send"></i></label>	   
+				<input class="hidden" type="submit" value="send" id="send">
+			</div>	
+		</form>
+			<div style="clear:none;margin-left:1%;margin-top:0.5%;float:left;color:green;font-weight:bold;" id="ajax-response"></div>
+		</div>		
+
+		<div style="float:right;">
+			<div style="display:;clear:none;">
+		
+		<div>
+             
+			
+			<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cvars"><i class="ri-booklet-line"></i> View C Vars</button>			
+			<button id="create-user" style="display:none;" class="btn">Ban user</button>
+
+			
+			
+</div>
+			
+			</div>
+		</div>	
+		<div style="float:right;clear:none;padding-right:5px;">
+			
+                          <button id="quick" class="btn btn-primary" name="quick"><i class="fas fa-tachometer-alt"></i> Quick Commands</button>
+			<!--<button class="button2"  id="create-user">Ban user</button>-->
+    		</div>	</div>
+            </div>
+          </div>
+
+        </div>
+
+        
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+			<div class="modal fade" id="error" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Error <span id="error_action"></span></h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+						<p id="error_text"></p>
+				</div>
+			 <div class="modal-footer">
+                      <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             </div>
+                  </div>
+                 </div>
+                 </div> 
+             <!--ban user-->     			
+			<div class="modal fade" id="ban_user" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Ban User</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+						<form>
+                <div class="row mb-3">
+                  <label for="inputEmail3" class="col-sm-3 col-form-label"l>Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="name" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputEmail3" class="col-sm-3 col-form-label">IP Address</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="ip" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputPassword3" class="col-sm-3 col-form-label">Steam ID</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="steam_id" readonly="">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-form-label col-sm-3">Ban Period</label>
+                 <div class="col-sm-8">
+                    <select id="period" class="form-select">
+						<option value="0">Permanent</option>
+						<option value="5">5 Mins</option>	
+						<option value="10">10 Mins</option>
+						<option value="20">20 Mins</option>
+						<option value="30">30 Mins</option>
+						<option value="60">1 Hour</option>
+                  </select>
+                  </div>
+                </div>
+                
+               
+              </form>
+			
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="ban">Do It</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+             <div class="modal fade" id="cvars" tabindex="-1">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Current Cvars</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="rule">
+                     
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+  <!--#footer#-->
+ <!-- End Footer -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+
+ 
+
+  <!-- Template Main JS File -->
+   <script src = "js/jquery.js"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+   <script src = "assets/js/main.js"></script>
+   <script src = "js/console.js"></script>
+<script>
+ $(document).ready(function() {
+     console.log('hit this');
+     $('#console').toggleClass("collapsed");
+         var options =$('#servers option').length;
+         if (options != 2){
+			$('#log').css("margin-top", "0%");
+			$('#server-select').show();
+			
+        }
+        else {
+			selectOption(1,'#servers');
+		}
+	});
+</script>	
+</body>
+
+</html>
