@@ -56,9 +56,9 @@
 								<thead>
 									<tr style="padding-bottom:6px;">
 										<th>Name</th>
-										<th>Location</th>
-										<th>Score</th>
-										<th>Time</th>
+										<th style="text-align:center;">Location</th>
+										<th style="text-align:center;">Score</th>
+										<th style="padding-left:2%;">Time</th>
 									</tr>
 								</thead>	
 								<tbody id="pbody"></tbody>
@@ -68,10 +68,10 @@
 				</div>
 			<div style="clear:both;padding:2%;">
 		<div>	   
-		<form id="sendcmd" style="width:60%;float:left;" action="/ajaxv2.php" method="get">
+		<form id="sendcmd" style="width:60%;float:left;" action="/api.php" method="get">
 			<div class="input-group">
 				<input class="form-control"name="text" type="text" id="text" size="50" placeholder="Enter Server Command">
-				<input type="hidden" id="action" name="action" value="exetmux">
+				<input type="hidden" id="action" name="action" value="exe_tmux">
 				<input type="hidden" id="server" name="server" value="">
 				<input type="hidden" id="cmd" name="cmd" value="c">
 				<input type="hidden" id="key" name="key" value="">
@@ -82,33 +82,14 @@
 			<div style="clear:none;margin-left:1%;margin-top:0.5%;float:left;color:green;font-weight:bold;" id="ajax-response"></div>
 		</div>		
 
-		<div style="float:right;">
-			<div style="display:;clear:none;">
-		
-		<div>
-             
-			
+		<div id="cmd_buttons" style="float:right;display:none;">
 			<button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#cvars"><i class="ri-booklet-line"></i> View C Vars</button>			
 			<button id="create-user" style="display:none;" class="btn">Ban user</button>
-
-			
-			
-</div>
-			
-			</div>
-		</div>	
-		<div style="float:right;clear:none;padding-right:5px;">
-			
-                          <button id="quick" class="btn btn-primary" name="quick"><i class="fas fa-tachometer-alt"></i> Quick Commands</button>
-			<!--<button class="button2"  id="create-user">Ban user</button>-->
-    		</div>	</div>
-            </div>
-          </div>
-
-        </div>
-
-        
-      </div>
+			<span style="float:right;clear:none;padding-left:5px;">
+			    <button id="quick" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#quick_cmds"><i class="fas fa-tachometer-alt"></i> Quick Commands</button>
+			</span>
+		 </div>
+  
     </section>
 
   </main><!-- End #main -->
@@ -117,7 +98,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title">Error <span id="error_action"></span></h5>
+                      <h5 class="modal-title"><span id="error_action"></span></h5>
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -132,19 +113,18 @@
              <!--ban user-->     			
 			<div class="modal fade" id="ban_user" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Ban User</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">User Information</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
                     <div class="modal-body">
-						<form>
-                <div class="row mb-3">
-                  <label for="inputEmail3" class="col-sm-3 col-form-label"l>Name</label>
-                  <div class="col-sm-8">
-                    <input type="text" class="form-control" id="name" readonly="">
-                  </div>
-                </div>
+					    <div class="row mb-3">
+							<label for="inputEmail3" class="col-sm-3 col-form-label"l>Name</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="name" readonly="">
+							</div>
+						</div>
                 <div class="row mb-3">
                   <label for="inputEmail3" class="col-sm-3 col-form-label">IP Address</label>
                   <div class="col-sm-8">
@@ -157,8 +137,24 @@
                     <input type="text" class="form-control" id="steam_id" readonly="">
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label class="col-form-label col-sm-3">Ban Period</label>
+		<div class="row mb-3">
+                  <label for="inputPassword4" class="col-sm-3 col-form-label">Logins</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="logins" readonly="">
+                  </div>
+                </div>
+		</div>
+		
+		<div class="model-body">
+			<div class="modal-header" style="border-bottom:none;border-top:1px solid #495057;">
+                      <h5 class="modal-title">User Actions</h5>
+			</div>
+			<form>
+				<div class="row mb-3" style="margin-top:1rem;">
+                  <label class="col-form-label col-sm-3" style="padding-left:6%;">Ban Period</label>
+                   <input type="hidden" id="nameb" name="nameb" value="">
+                    <input type="hidden" id="ipb" name="ipb" value="">
+                     <input type="hidden" id="steam_idb" name="steam_idb" value="">
                  <div class="col-sm-8">
                     <select id="period" class="form-select">
 						<option value="0">Permanent</option>
@@ -169,19 +165,45 @@
 						<option value="60">1 Hour</option>
                   </select>
                   </div>
+                  <div class="col-sm8">
+					<label class="col-form-label col-sm-3" style="padding-left:4%;"> Ban IP</label><span style="margin-left:2%;"><input type="checkbox" id="ban_ip" name="ban_ip" value="ban_ip" checked></span>
+					<label class="col-form-label col-sm-3" style="padding-left:4%;"> Ban Id</label><span style="margin-left:2%;"><input type="checkbox" id="ban_id" name="ban_id" value="ban_id"></span>
+					
+                  </div>
                 </div>
-                
-               
+                            
               </form>
-			
-                    </div>
-                    <div class="modal-footer">
+			</div>
+                    <div class="modal-footer" style="border:none">
+                      
+                      <button type="submit" class="btn btn-primary" id="ban">Ban User</button>
+                      <button type="submit" class="btn btn-primary" id="kick">Kick User</button>
                       <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary" id="ban">Do It</button>
                     </div>
                   </div>
                 </div>
               </div>
+              <div class="modal fade" id="quick_cmds" tabindex="-1" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Quick Commands</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body" id="q_cmds">
+						<div style="height:50px;">Change to next map<button style="float:right;clear:none;" class="btn btn-primary" id="next_level">Go</button></div>
+						<div style="height:50px;">List Banned IP's <button style="float:right;" class="btn btn-primary" id="ip_list_banned">Go</button></div>
+						<div style="height:50px;">Write Banned IP's <button style="float:right;" class="btn btn-primary" id="ip_write_banned">Go</button></div>
+						<div style="height:50px;">List Banned ID's  <button style="float:right;" class="btn btn-primary" id="id_list_banned">Go</button></div>
+						<div style="height:50px;">Write Banned ID's <button style="float:right;" class="btn btn-primary" id="id_write_banned">Go</button></div>		
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     
+                    </div>
+                  </div>
+                </div>
+			</div>	  
              <div class="modal fade" id="cvars" tabindex="-1">
                 <div class="modal-dialog modal-dialog-scrollable">
                   <div class="modal-content">
@@ -205,13 +227,13 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+   <!-- <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>-->
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.min.js"></script>
+    <!--<script src="assets/vendor/chart.js/chart.min.js"></script>
     <script src="assets/vendor/echarts/echarts.min.js"></script>
     <script src="assets/vendor/quill/quill.min.js"></script>
     <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>-->
 
  
 

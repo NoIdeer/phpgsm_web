@@ -259,6 +259,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Close Button */
 .btn-close {
   background-size: 25%;
+  filter: invert(1);
+  background-color: #7fffd4;
 }
 .btn-close:focus {
   outline: 0;
@@ -1104,8 +1106,9 @@ h1, h2, h3, h4, h5, h6 {
 # Custom
 --------------------------------------------------------------*/
 .flag {
-  width:17%;
-  padding-right:0%;
+  width:30%;
+  padding-left:3%;
+  /*text-align:center;*/
   vertical-align: middle;
   /*border: 1px solid #000;*/
 }
@@ -1398,3 +1401,9 @@ a.invert:hover {
     margin-top: -8px;
     padding: 1%;
 } 
+
+.modal-fullscreen {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+}	

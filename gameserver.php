@@ -24,9 +24,9 @@
 //echo "hello there <br>";
 include 'inc/master.inc.php';
    $Auth = new Auth ();
-$build = "6209-2416640325";
+$build = "6620-2864687030";
 $version = "1.001";
-$time = "1647242825";
+$time = "1653110483";
 $module = "Game_Server";
         $user = $Auth->getAuth();
 $bserver = explode('=',$_SERVER['QUERY_STRING']);
@@ -64,9 +64,17 @@ $template = new template;
 $sidebar_data = array();
 $header_vars['title'] = "$module - $bserver";
 $sql = "select * from server1 order by `host_name` ASC";
+$sidebar_data['bmenu'] = '';
 $sidebar_data['smenu'] = '';
 $servers = $database->get_results($sql);
 foreach ($servers as $server) {
+	$fname = trim($server['host_name']);
+        $href = "gameserver.php?server=$fname";
+        if(!$server['enabled']) {
+             $sidebar_data['smenu'] .='<li><a class="" href="'.$href.'" style="color:red;"><img style="width:16px;" src="'.$server['logo'].'">&nbsp;'.$server['server_name'].'&nbsp;</a></li>';
+             continue;
+       }
+
 	$href = 'gameserver.php?server='.$server['host_name'];
 	if ($bserver == $server['host_name'] ) {$class = 'active';} else {$class='';}
 	$sidebar_data['smenu'] .='<li><a class="'.$class.'" href="'.$href.'"><img style="width:16px;" src="'.$server['logo'].'">&nbsp;'.$server['server_name'].'&nbsp;</a></li>';
@@ -78,12 +86,15 @@ foreach ($base_servers as $server) {
 }
 $sql = "select * from server1 where host_name = '$bserver'";
 $this_server =  $database->get_row($sql);
+//print_r($this_server);
+$this_server['cfg_file'] = str_replace(PHP_EOL,'<br>',file_get_contents($this_server['location'].'/'.$this_server['game'].'/cfg/'.$this_server['host_name'].'.cfg'));
 $this_server['server_update'] = date("d-m-Y H:i:s a",$this_server['server_update']);
 if ($this_server['starttime']) {$this_server['starttime'] = date("d-m-Y H:i:s a",$this_server['starttime']);}
 $info = get_server_info($this_server);
 $uri = parse_url($this_server['url']);
-$url = $uri['scheme']."://".$uri['host'].':'.$this_server['bport'].$uri['path'];
-$v = json_decode(geturl("$url/ajaxv2.php?action=game_detail&filter=$bserver&server=".$this_server['fname']),true); //needs replacing with ajax_send
+$url = $uri['scheme']."://".$uri['host'].':'.$this_server['bport'];
+if(isset($uri['path'])){ $url .= $uri['path'];}
+$v = json_decode(geturl("$url/api.php?action=game_detail&filter=$bserver&server=".$this_server['fname']),true); //needs replacing with ajax_send
 //$info = array_merge($info,array_change_key_case($v[$bserver]));
 $this_server = array_change_key_case(array_merge_recursive($this_server,$info));
 $this_server['players'] -= $this_server['bots'];
@@ -121,7 +132,7 @@ $template->load('templates/gameserver.html');
 $template->replace_vars($page);
 $template->replace_vars($this_server);
 //die('just about to publish');
-$template->replace_vars($v[$bserver]);
+//$template->replace_vars($v[$bserver]);
 
 $template->publish();
 
